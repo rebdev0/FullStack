@@ -1,5 +1,4 @@
-from flask import Flask, render_template
-from operator import itemgetter
+from flask import Flask, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 
@@ -69,11 +68,17 @@ def newMenuItem(restaurant_id):
 	return render_template('newMenuItem.html', restaurant = testRestaurants[restaurant_id-1])
 
 # -----------------------------------------------------------
-# TODO - Add a new restaurant
+# Add a new restaurant
 # -----------------------------------------------------------
-@app.route('/restaurant/new')
+@app.route('/restaurant/new', methods = ['GET', 'POST'])
 def newRestaurant():
-	return render_template('newRestaurant.html')
+	if request.method == 'POST':
+		newRestaurant = Restaurant(name = request.form['name'], description = request.form['description'], address = request.form['address'], phone = request.form['phone'], website = request.form['website'])
+		session.add(newRestaurant)
+		session.commit()
+		return redirect(url_for('showRestaurants'))
+	else:
+		return render_template('newRestaurant.html')
 	
 # -----------------------------------------------------------
 # TODO - Show the menu items for a restaurant
@@ -86,7 +91,7 @@ def showMenu(restaurant_id):
 	return render_template('menu.html', restaurant = testRestaurants[restaurant_id-1], items = menuItems)
 	
 # -----------------------------------------------------------
-# TODO - Show all the restaurants
+# Show all the restaurants
 # -----------------------------------------------------------
 @app.route('/restaurants')
 @app.route('/')	
