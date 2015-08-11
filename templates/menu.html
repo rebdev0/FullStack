@@ -1,7 +1,7 @@
 <html>
 	<body>
-		<h1>{{ restaurant.name }}</h1>
-		<h3><a href="{{ url_for('showRestaurants')}}"><< Back to Restaurants</a></h3>
+		<h1>{{restaurant.name}}</h1>
+		<h3><a href="{{url_for('showRestaurants')}}"><< Back to Restaurants</a></h3>
 		
 		{% if items|length == 0 %}
 			No menu items for this restaurant <br><br>
@@ -9,9 +9,17 @@
 		{% else %}
 			{% for i in items %}
 				{{i.name}}<br>
-				{{i.description}}<br>
-				{{i.price}}<br>
-				{{i.course}}<br>
+				
+				{% if i.description %}
+					{{i.description}}<br>
+				{% endif %}
+				{% if i.price %}
+					{{i.price}}<br>
+				{% endif %}
+				{% if i.course %}
+					{{i.course}}<br>
+				{% endif %}
+				
 				<a href="{{url_for('editMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Edit</a>
 				<a href="{{url_for('deleteMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Delete</a>
 				<br><br>
