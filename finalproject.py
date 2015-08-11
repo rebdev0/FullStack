@@ -54,11 +54,21 @@ def editMenuItem(restaurant_id, item_id):
 	return render_template('editMenuItem.html', restaurant = testRestaurants[restaurant_id-1], item = testItems[item_id-1])
 
 # -----------------------------------------------------------
-# TODO - Edit attributes of a restaurant
+# Edit attributes of a restaurant
 # -----------------------------------------------------------
-@app.route('/restaurant/<int:restaurant_id>/edit')
+@app.route('/restaurant/<int:restaurant_id>/edit', methods = ['GET', 'POST'])
 def editRestaurant(restaurant_id):
-	return render_template('editRestaurant.html', restaurant = testRestaurants[restaurant_id-1])
+	editRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+	if request.method == 'POST':
+		editRestaurant.name = request.form['name']
+		editRestaurant.description = request.form['description']
+		editRestaurant.address = request.form['address']
+		editRestaurant.phone = request.form['phone']
+		editRestaurant.website = request.form['website']
+		session.commit()
+		return redirect(url_for('showRestaurants'))
+	else:
+		return render_template('editRestaurant.html', restaurant = editRestaurant)
 
 # -----------------------------------------------------------
 # TODO - Add a new menu item to a restaurant
