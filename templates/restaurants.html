@@ -2,12 +2,17 @@
 	<body>
 		<a href="{{url_for('newRestaurant')}}">Add New Restaurant</a><br><br>
 		
-		{% for i in restaurants %}
-			{{i.name}}<br>
-			<a href="{{url_for('showMenu', restaurant_id = i.id) }}">View</a><br>
-			<a href="{{url_for('editRestaurant', restaurant_id = i.id) }}">Edit</a><br>
-			<a href="{{url_for('deleteRestaurant', restaurant_id = i.id) }}">Delete</a>
-			<br><br>
-		{% endfor %}
+		{% if restaurants|length == 0 %}
+			No restaurants added <br><br>
+		
+		{% else %}
+			{% for i in restaurants %}
+				{{i.name}}<br>
+				<a href="{{url_for('showMenu', restaurant_id = i.id) }}">View</a><br>
+				<a href="{{url_for('editRestaurant', restaurant_id = i.id) }}">Edit</a><br>
+				<a href="{{url_for('deleteRestaurant', restaurant_id = i.id) }}">Delete</a>
+				<br><br>
+			{% endfor %}
+		{% endif %}
 	</body>
 </html>

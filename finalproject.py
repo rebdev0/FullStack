@@ -32,14 +32,14 @@ restaurantItems = [{0,2,4}, {1, 3}, {0,1,4}, {}]
 # ****************************************************************************************
 
 # -----------------------------------------------------------
-# Delete an item from a menu
+# TODO - Delete an item from a menu
 # -----------------------------------------------------------
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:item_id>/delete')
 def deleteMenuItem(restaurant_id, item_id):
 	return render_template('deleteMenuItem.html', item = testItems[item_id-1], restaurant = testRestaurants[restaurant_id-1])
 
 # -----------------------------------------------------------
-# Delete a restaurant, which will also delete all menu items
+# TODO - Delete a restaurant, which will also delete all menu items
 # from the restaurant
 # -----------------------------------------------------------
 @app.route('/restaurant/<int:restaurant_id>/delete')
@@ -48,35 +48,35 @@ def deleteRestaurant(restaurant_id):
 	return render_template('deleteRestaurant.html', restaurant = testRestaurants[restaurant_id-1])
 
 # -----------------------------------------------------------
-# Edit attributes of a menu item
+# TODO - Edit attributes of a menu item
 # -----------------------------------------------------------	
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:item_id>/edit')
 def editMenuItem(restaurant_id, item_id):
 	return render_template('editMenuItem.html', restaurant = testRestaurants[restaurant_id-1], item = testItems[item_id-1])
 
 # -----------------------------------------------------------
-# Edit attributes of a restaurant
+# TODO - Edit attributes of a restaurant
 # -----------------------------------------------------------
 @app.route('/restaurant/<int:restaurant_id>/edit')
 def editRestaurant(restaurant_id):
 	return render_template('editRestaurant.html', restaurant = testRestaurants[restaurant_id-1])
 
 # -----------------------------------------------------------
-# Add a new menu item to a restaurant
+# TODO - Add a new menu item to a restaurant
 # -----------------------------------------------------------
 @app.route('/restaurant/<int:restaurant_id>/menu/new')
 def newMenuItem(restaurant_id):
 	return render_template('newMenuItem.html', restaurant = testRestaurants[restaurant_id-1])
 
 # -----------------------------------------------------------
-# Add a new restaurant
+# TODO - Add a new restaurant
 # -----------------------------------------------------------
 @app.route('/restaurant/new')
 def newRestaurant():
 	return render_template('newRestaurant.html')
 	
 # -----------------------------------------------------------
-# Show the menu items for a restaurant
+# TODO - Show the menu items for a restaurant
 # -----------------------------------------------------------
 @app.route('/restaurant/<int:restaurant_id>/menu')
 @app.route('/restaurant/<int:restaurant_id>')
@@ -86,12 +86,13 @@ def showMenu(restaurant_id):
 	return render_template('menu.html', restaurant = testRestaurants[restaurant_id-1], items = menuItems)
 	
 # -----------------------------------------------------------
-# Show all the restaurants
+# TODO - Show all the restaurants
 # -----------------------------------------------------------
 @app.route('/restaurants')
 @app.route('/')	
 def showRestaurants():
-	return render_template('restaurants.html', restaurants = testRestaurants)
+	allRestaurants = session.query(Restaurant).all()
+	return render_template('restaurants.html', restaurants = allRestaurants)
 
 if __name__ == '__main__':
 	app.debug = True
