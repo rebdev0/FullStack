@@ -8,10 +8,18 @@
 		{% else %}
 			{% for i in restaurants %}
 				{{i.name}}<br>
-				{{i.description}}<br>
-				{{i.address}}<br>
-				{{i.phone}}<br>
-				{{i.website}}<br>
+				{% if i.description %}
+					{{i.description}}<br>
+				{% endif %}
+				{% if i.address %}
+					{{i.address}}<br>
+				{% endif %}
+				{% if i.phone %}
+					{{i.phone}}<br>
+				{% endif %}
+				{% if i.website %}
+					{{i.website}}<br>
+				{% endif %}
 				<a href="{{url_for('showMenu', restaurant_id = i.id) }}">View Menu</a>
 				<a href="{{url_for('editRestaurant', restaurant_id = i.id) }}">Edit Restaurant</a>
 				<a href="{{url_for('deleteRestaurant', restaurant_id = i.id) }}">Delete Restaurant</a>

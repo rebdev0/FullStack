@@ -38,13 +38,18 @@ def deleteMenuItem(restaurant_id, item_id):
 	return render_template('deleteMenuItem.html', item = testItems[item_id-1], restaurant = testRestaurants[restaurant_id-1])
 
 # -----------------------------------------------------------
-# TODO - Delete a restaurant, which will also delete all menu items
+# Delete a restaurant, which will also delete all menu items
 # from the restaurant
 # -----------------------------------------------------------
-@app.route('/restaurant/<int:restaurant_id>/delete')
+@app.route('/restaurant/<int:restaurant_id>/delete', methods = ['GET', 'POST'])
 def deleteRestaurant(restaurant_id):
-	# selectedRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
-	return render_template('deleteRestaurant.html', restaurant = testRestaurants[restaurant_id-1])
+	deleteRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+	if request.method == 'POST':
+		session.delete(deleteRestaurant)
+		session.commit()
+		return redirect(url_for('showRestaurants'))
+	else:
+		return render_template('deleteRestaurant.html', restaurant = deleteRestaurant)
 
 # -----------------------------------------------------------
 # TODO - Edit attributes of a menu item
