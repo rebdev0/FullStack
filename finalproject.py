@@ -101,9 +101,12 @@ def newRestaurant():
 @app.route('/restaurant/<int:restaurant_id>/menu')
 @app.route('/restaurant/<int:restaurant_id>')
 def showMenu(restaurant_id):
-	indices = restaurantItems[restaurant_id-1]
-	menuItems = [testItems[index] for index in indices ]
-	return render_template('menu.html', restaurant = testRestaurants[restaurant_id-1], items = menuItems)
+	selectedRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+	allMenuItems = session.query(MenuItem).filter_by(restaurant_id = restaurant_id).all()
+	
+	#indices = restaurantItems[restaurant_id-1]
+	#menuItems = [testItems[index] for index in indices ]
+	return render_template('menu.html', restaurant = selectedRestaurant, items = allMenuItems)
 	
 # -----------------------------------------------------------
 # Show all the restaurants
