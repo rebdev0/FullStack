@@ -52,11 +52,21 @@ def deleteRestaurant(restaurant_id):
 		return render_template('deleteRestaurant.html', restaurant = deleteRestaurant)
 
 # -----------------------------------------------------------
-# TODO - Edit attributes of a menu item
+# Edit attributes of a menu item
 # -----------------------------------------------------------	
-@app.route('/restaurant/<int:restaurant_id>/menu/<int:item_id>/edit')
+@app.route('/restaurant/<int:restaurant_id>/menu/<int:item_id>/edit', methods = ['GET', 'POST'])
 def editMenuItem(restaurant_id, item_id):
-	return render_template('editMenuItem.html', restaurant = testRestaurants[restaurant_id-1], item = testItems[item_id-1])
+	selectedRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+	editItem = session.query(MenuItem).filter_by(id = item_id).one()
+	if request.method == 'POST':
+		editItem.name = request.form['name']
+		editItem.description = request.form['description']
+		editItem.price = request.form['price']
+		editItem.course = request.form['course']
+		session.commit()
+		return redirect(url_for('showMenu', restaurant_id = restaurant_id))
+	else:
+		return render_template('editMenuItem.html', restaurant = selectedRestaurant, item = editItem)
 
 # -----------------------------------------------------------
 # Edit attributes of a restaurant
