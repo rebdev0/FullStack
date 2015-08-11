@@ -1,0 +1,22 @@
+<html>
+	<body>
+		<h1>{{ restaurant.name }}</h1>
+		<h3><a href="{{ url_for('showRestaurants')}}"><< Back to Restaurants</a></h3>
+		
+		{% if items|length == 0 %}
+			No menu items for this restaurant <br><br>
+			
+		{% else %}
+			{% for i in items %}
+				{{i.name}}<br>
+				{{i.description}}<br>
+				{{i.price}}<br>
+				{{i.course}}<br>
+				<a href="{{url_for('editMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Edit</a>
+				<a href="{{url_for('deleteMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Delete</a>
+				<br><br>
+			{% endfor %}
+		{% endif %}
+		<a href="{{url_for('newMenuItem', restaurant_id = restaurant.id)}}">Create New Menu Item</a>
+	</body>
+</html>

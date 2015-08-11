@@ -1,0 +1,17 @@
+<html>
+	<body>
+		<h1>Edit {{ restaurant.name }}</h1>
+		
+		<form action="#" method = 'post'>
+			<dl>
+				<dt>Name: </dt><dd><input type='text' size='30' name='name' placeholder = {{ restaurant.name }}></dd>
+				<dt>Description: </dt><dd><textarea name='description' rows='5' cols='40' placeholder='{{restaurant.description}}'></textarea></dd>
+				<dt>Address:</dt><dd><input type='text' size='100' name='address' placeholder='address goes here'></dd>
+				<dt>Phone Number:</dt><dd><input type='text' size='100' name='phone' placeholder='phone number goes here'></dd>
+				<dt>Website:</dt><dd><input type='text' size='100' name='website' placeholder='url goes here'></dd>
+			</dl>
+			<input type='submit' value='Edit'>
+		</form>
+		<a href="{{url_for('showRestaurants')}}">Cancel</a>
+	</body>
+</html>
