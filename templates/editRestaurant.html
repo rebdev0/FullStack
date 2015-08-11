@@ -4,11 +4,11 @@
 		
 		<form action="{{url_for('editRestaurant', restaurant_id = restaurant.id)}}" method = 'POST'>
 			<dl>
-				<dt>Name: </dt><dd><input type='text' size='30' name='name' placeholder = {{ restaurant.name }}></dd>
-				<dt>Description: </dt><dd><textarea name='description' rows='5' cols='40' placeholder='{{restaurant.description}}'></textarea></dd>
-				<dt>Address:</dt><dd><input type='text' size='100' name='address' placeholder='address goes here'></dd>
-				<dt>Phone Number:</dt><dd><input type='text' size='100' name='phone' placeholder='phone number goes here'></dd>
-				<dt>Website:</dt><dd><input type='text' size='100' name='website' placeholder='url goes here'></dd>
+				<dt>Name: </dt><dd><input type='text' size='30' name='name' value = '{{restaurant.name}}'></dd>
+				<dt>Description: </dt><dd><textarea name='description' rows='5' cols='40'>{{restaurant.description}}</textarea></dd>
+				<dt>Address:</dt><dd><input type='text' size='100' name='address' value = '{{restaurant.address}}'></dd>
+				<dt>Phone Number:</dt><dd><input type='text' size='100' name='phone' value = '{{restaurant.phone}}'></dd>
+				<dt>Website:</dt><dd><input type='text' size='100' name='website' value = '{{restaurant.website}}'></dd>
 			</dl>
 			<input type='submit' value='Edit'>
 		</form>
