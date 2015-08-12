@@ -3,7 +3,7 @@
 		<link rel="stylesheet" href="/static/bootstrap.min.css">
 		<style type="text/css">
 			body {
-				padding-top: 20px;
+				padding-top: 60px;
 			}
 		</style>
 	</head>
@@ -31,11 +31,11 @@
 		</nav> <!-- end navbar -->
 		
 		<!-- Menu Items -->
-		<div class="container">		
-			<div class="page-header">
+		<div class="container">	
+			<div class="jumbotron">
 				<h1>{{restaurant.name}}</h1>
 			</div>
-	  
+			
 			{% if items|length == 0 %}
 				No menu items yet <br><br>
 			{% else %}
