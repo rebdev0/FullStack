@@ -101,6 +101,7 @@ def newRestaurant():
 		session.commit()
 		return redirect(url_for('showRestaurants'))
 	else:
+		print "GOT GET"
 		return render_template('newRestaurant.html')
 	
 # -----------------------------------------------------------
