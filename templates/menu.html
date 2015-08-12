@@ -1,30 +1,80 @@
 <html>
+	<head>
+		<link rel="stylesheet" href="/static/bootstrap.min.css">
+		<style type="text/css">
+			body {
+				padding-top: 20px;
+			}
+		</style>
+	</head>
+	
 	<body>
-		<h1>{{restaurant.name}}</h1>
-		<h3><a href="{{url_for('showRestaurants')}}"><< Back to Restaurants</a></h3>
+		<!-- Fixed navbar -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="{{url_for('showRestaurants')}}">Restaurants</a>
+			</div><!-- end of header -->
+			<div id="navbar" class="navbar-collapse collapse">
+			  <ul class="nav navbar-nav">
+				<li class="active"><a href="{{url_for('showRestaurants')}}">Home</a></li>
+				<li><a href="{{url_for('newMenuItem', restaurant_id = restaurant.id)}}">New Menu Item</a></li>
+			  </ul>
+			</div><!-- end navigation menu -->
+		  </div> <!--  end container -->
+		</nav> <!-- end navbar -->
 		
-		{% if items|length == 0 %}
-			No menu items for this restaurant <br><br>
-			
-		{% else %}
-			{% for i in items %}
-				{{i.name}}<br>
+		<!-- Menu Items -->
+		<div class="container">		
+			<div class="page-header">
+				<h1>{{restaurant.name}}</h1>
+			</div>
+	  
+			{% if items|length == 0 %}
+				No menu items yet <br><br>
+			{% else %}
+				{% set course = '' %}
+				{% for i in items|sort(attribute='course') %}
+					<!-- Check to see if we need to finish a panel and start another panel for a different course -->
+					{% if i.course != course %}
+						{% if course != '' %}
+							<!-- End the previous course panel body and overall course panel -->
+							</div></div>
+						{% endif %}
+						
+						<!-- Reset what our current course is -->
+						{% set course = i.course %}
+						
+						<!-- Start a panel for a new course -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">{{i.course}}</h3>
+							</div>
+							<div class="panel-body">
+					{% endif %}
 				
-				{% if i.description %}
-					{{i.description}}<br>
-				{% endif %}
-				{% if i.price %}
-					{{i.price}}<br>
-				{% endif %}
-				{% if i.course %}
-					{{i.course}}<br>
-				{% endif %}
-				
-				<a href="{{url_for('editMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Edit</a>
-				<a href="{{url_for('deleteMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Delete</a>
-				<br><br>
-			{% endfor %}
-		{% endif %}
-		<a href="{{url_for('newMenuItem', restaurant_id = restaurant.id)}}">Create New Menu Item</a>
+					<!-- Add menu item to panel -->
+					<p>{{i.name}}<br>
+					{% if i.description %}
+						{{i.description}}<br>
+					{% endif %}
+					{% if i.price %}
+						{{i.price}}<br>
+					{% endif %}
+					
+					<a type="button" class="btn btn-default btn-md" href="{{url_for('editMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Edit</a>
+					<a type="button" class="btn btn-default btn-md" href="{{url_for('deleteMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Delete</a>
+					</p>
+					
+				{% endfor %}
+				</div>	
+			{% endif %}
+		</div>
 	</body>
 </html>
