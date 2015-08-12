@@ -29,31 +29,14 @@
 		  </div> <!--  end container -->
 		</nav> <!-- end navbar -->
 
-		
-		<!--
-		<h1>Edit {{ restaurant.name }}</h1>
-		
-		<form action="{{url_for('editRestaurant', restaurant_id = restaurant.id)}}" method = 'POST'>
-			<dl>
-				<dt>Name: </dt><dd><input type='text' size='30' name='name' value = '{{restaurant.name}}'></dd>
-				<dt>Description: </dt><dd><textarea name='description' rows='5' cols='40'>{{restaurant.description}}</textarea></dd>
-				<dt>Address:</dt><dd><input type='text' size='100' name='address' value = '{{restaurant.address}}'></dd>
-				<dt>Phone Number:</dt><dd><input type='text' size='100' name='phone' value = '{{restaurant.phone}}'></dd>
-				<dt>Website:</dt><dd><input type='text' size='100' name='website' value = '{{restaurant.website}}'></dd>
-			</dl>
-			<input type='submit' value='Save Changes'>
-		</form>
-		<a href="{{url_for('showRestaurants')}}">Cancel</a -->
-		
-		<div class="container">
-		
+		<div class="container">		
 			<!-- Main jumbotron for a primary marketing message or call to action -->
 			<div class="jumbotron">
 				<h1>Edit {{restaurant.name}}</h1>
 				<p>Don't forget to save your changes!</p>
 			</div>
 
-			<!-- Form for adding a new restaurant -->
+			<!-- Form for editing a restaurant -->
 			<form class="form-horizontal" action="{{url_for('editRestaurant', restaurant_id = restaurant.id)}}" method = 'POST' role="form">
 				<!-- Name -->
 				<div class="form-group">
