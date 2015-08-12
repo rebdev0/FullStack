@@ -20,6 +20,16 @@ class Restaurant(Base):
 	address = Column(String(300), nullable = True)
 	phone = Column(String(25), nullable = True)
 	website = Column(String(100), nullable = True)
+
+	@property
+	def serialize(self):
+		return { 'id': self.id,
+		'name': self.name, 
+		'description': self.description, 
+		'adddress' : self.address, 
+		'phone' : self.phone, 
+		'website' : self.website }
+
 	
 #-----------------------------------------------------
 # Class representing the menu item table in the
@@ -37,8 +47,13 @@ class MenuItem(Base):
 	
 	@property
 	def serialize(self):
-		return { 'name': self.name, 'description': self.description, 'id' : self.id, 'price' : self.price, 'course' : self.course }
-
+		return { 
+		'id': self.id,
+		'name': self.name, 
+		'course' :self.course,
+		'description': self.description, 
+		'price' : self.price}
+		
 #-----------------------------------------------------
 engine = create_engine('sqlite:///restaurantmenu.db')
 Base.metadata.create_all(engine)
