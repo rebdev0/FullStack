@@ -1,30 +1,84 @@
 <html>
-	<body>
-		<a href="{{url_for('newRestaurant')}}">Add New Restaurant</a><br><br>
-		
+	<head>
+		<link rel="stylesheet" href="/static/bootstrap.min.css">
+		<style type="text/css">
+			body {
+				padding-top: 60px;
+			}
+		</style>
+	</head>
+	
+	<body class = "body">
+	
+	<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">Restaurants</a>
+        </div><!-- end of header -->
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+			<li><a href="{{url_for('newRestaurant')}}">Add New Restaurant</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </div><!-- end navigation menu -->
+      </div> <!--  end container -->
+    </nav> <!-- end navbar -->
+
+	<!-- Page body -->
+    <div class="container" role="main">
+	
 		{% if restaurants|length == 0 %}
 			No restaurants added <br><br>
 		
 		{% else %}
 			{% for i in restaurants %}
-				{{i.name}}<br>
-				{% if i.description %}
-					{{i.description}}<br>
-				{% endif %}
-				{% if i.address %}
-					{{i.address}}<br>
-				{% endif %}
-				{% if i.phone %}
-					{{i.phone}}<br>
-				{% endif %}
-				{% if i.website %}
-					{{i.website}}<br>
-				{% endif %}
-				<a href="{{url_for('showMenu', restaurant_id = i.id) }}">View Menu</a>
-				<a href="{{url_for('editRestaurant', restaurant_id = i.id) }}">Edit Restaurant</a>
-				<a href="{{url_for('deleteRestaurant', restaurant_id = i.id) }}">Delete Restaurant</a>
-				<br><br>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">{{i.name}}</h3>
+					</div>
+					<div class="panel-body">
+						<p>
+						<a class="btn btn-sm btn-default" href="{{url_for('editRestaurant', restaurant_id = i.id)}}">Edit Restaurant</a>
+						<a class="btn btn-sm btn-default" href="{{url_for('deleteRestaurant', restaurant_id = i.id)}}">Delete Restaurant</a>
+						</p>
+						
+						{% if i.description %}
+							<p>{{i.description}}</p>
+						{% endif %}
+						{% if i.address %}
+							<p>{{i.address}}</p>
+						{% endif %}
+						{% if i.phone %}
+							<p>{{i.phone}}</p>
+						{% endif %}
+						{% if i.website %}
+							<p>{{i.website}}</p>
+						{% endif %}
+						<p>
+							<a class="btn btn-sm btn-default" href="{{url_for('showMenu', restaurant_id = i.id)}}">View Menu</a>
+						</p>
+					</div>
+				</div>
 			{% endfor %}
 		{% endif %}
+
+	</div>
+	
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+		<script src="/static/bootstrap.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug
+		<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+		-->
 	</body>
 </html>
