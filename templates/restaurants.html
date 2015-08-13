@@ -31,9 +31,15 @@
 		</nav> <!-- end navbar -->
 
 	<!-- Page body -->
+			
 		<div class="container" role="main">
+			<div class="jumbotron">
+				<h1>Restaurants</h1>
+				<h4>A selection of local restaurants.  Enjoy your dining experience!</h4>
+			</div>
+		
 		{% if restaurants|length == 0 %}
-			No restaurants added <br><br>
+			No restaurants found<br><br>
 		{% else %}
 			{% for row in restaurants|batch(3) %}
 				<div class="container">

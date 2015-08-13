@@ -34,46 +34,61 @@
 		<div class="container">	
 			<div class="jumbotron">
 				<h1>{{restaurant.name}}</h1>
+				<p><h4>
+					{% if restaurant.description %}
+						{{restaurant.description}}<br>
+					{% endif %}
+					{% if restaurant.address %}
+						{{restaurant.address}}<br>
+					{% endif %}
+					{% if restaurant.phone %}
+						{{restaurant.phone}}<br>
+					{% endif %}
+					{% if restaurant.website %}
+						{{restaurant.website}}<br>
+					{% endif %}
+				</h4></p>
 			</div>
 			
 			{% if items|length == 0 %}
 				No menu items yet <br><br>
 			{% else %}
-				{% set course = '' %}
-				{% for i in items|sort(attribute='course') %}
-					<!-- Check to see if we need to finish a panel and start another panel for a different course -->
-					{% if i.course != course %}
-						{% if course != '' %}
-							<!-- End the previous course panel body and overall course panel -->
-							</div></div>
-						{% endif %}
-						
-						<!-- Reset what our current course is -->
-						{% set course = i.course %}
-						
-						<!-- Start a panel for a new course -->
-						<div class="panel panel-default">
+				{% for course in items|groupby('course') %}
+					<!-- Course header -->
+					<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">{{i.course}}</h3>
+								<h3 class="panel-title">{{course.grouper}}</h3>
 							</div>
 							<div class="panel-body">
-					{% endif %}
-				
-					<!-- Add menu item to panel -->
-					<p>{{i.name}}<br>
-					{% if i.description %}
-						{{i.description}}<br>
-					{% endif %}
-					{% if i.price %}
-						{{i.price}}<br>
-					{% endif %}
-					
-					<a type="button" class="btn btn-default btn-md" href="{{url_for('editMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Edit</a>
-					<a type="button" class="btn btn-default btn-md" href="{{url_for('deleteMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Delete</a>
-					</p>
-					
+								{% for row in course.list|batch(3) %}
+									<div class="container">
+										<div class="row grid-divider">
+										{% for i in row %}
+											<div class="col-sm-4">
+												<div class="col-padding">
+													<h4>{{i.name}}</h4>
+													<p>
+														{% if i.description %}
+															{{i.description}}<br>
+														{% endif %}
+														{% if i.price %}
+															{{i.price}}<br>
+														{% endif %}
+													</p>
+													<p>
+														<a type="button" class="btn btn-default btn-md" href="{{url_for('editMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Edit</a>
+														<a type="button" class="btn btn-default btn-md" href="{{url_for('deleteMenuItem', restaurant_id = restaurant.id, item_id = i.id)}}">Delete</a>
+													</p>
+												</div>
+											</div>
+										{% endfor %}
+										</div>
+									</div>	<!-- close row -->
+								{% endfor %}
+							</div>
+					</div> <!-- close container -->
 				{% endfor %}
-				</div>	
+				
 			{% endif %}
 		</div>
 	</body>
