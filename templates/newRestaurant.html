@@ -31,14 +31,27 @@
 		</nav> <!-- end navbar -->
 
 		<div class="container">
+		
 			<!-- Main jumbotron for a primary marketing message or call to action -->
 			<div class="jumbotron">
 				<h1>Add New Restaurant</h1>
 				<h4>Once you've created a restaurant, you can add new menu items to it</h4>
 			</div>
 
+			<!-- if there are errors, display them here! -->
+			{% if errors %}
+				{% for e in errors %}
+					<div class="alert alert-danger" role="alert">
+						<strong>Error!</strong> {{e}}
+					</div>
+				{% endfor %}
+			{% endif %}
+	  
 			<!-- Form for adding a new restaurant -->
 			<form class="form-horizontal" action="{{url_for('newRestaurant')}}" method = 'POST' role="form">
+				
+				<!-- check for name error -->
+				
 				<!-- Name -->
 				<div class="form-group">
 					<label for="name" class="col-sm-2 control-label">Name</label>
@@ -46,6 +59,7 @@
 						<input type="text" class="form-control" name="name" placeholder="Name">
 					</div>
 				</div>
+		
 				<!-- Description -->
 				<div class="form-group">
 					<label for="description" class="col-sm-2 control-label">Description</label>

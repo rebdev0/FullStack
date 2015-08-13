@@ -37,6 +37,15 @@
 				<p><h4>Edit {{item.name}}</h4></p>
 			</div>
 
+			<!-- if there are errors, display them here! -->
+			{% if errors %}
+				{% for e in errors %}
+					<div class="alert alert-danger" role="alert">
+						<strong>Error!</strong> {{e}}
+					</div>
+				{% endfor %}
+			{% endif %}
+			
 			<!-- Form for editing a restaurant -->
 			<form class="form-horizontal" action="{{url_for('editMenuItem', restaurant_id = restaurant.id, item_id = item.id)}}" method = 'POST' role="form">
 				<!-- Name -->

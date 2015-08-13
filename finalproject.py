@@ -50,12 +50,17 @@ def editMenuItem(restaurant_id, item_id):
 	selectedRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	editItem = session.query(MenuItem).filter_by(id = item_id).one()
 	if request.method == 'POST':
-		editItem.name = request.form['name']
-		editItem.description = request.form['description']
-		editItem.price = request.form['price']
-		editItem.course = request.form['course']
-		session.commit()
-		return redirect(url_for('showMenu', restaurant_id = restaurant_id))
+		# Check for errors
+		if not (request.form['name'] and request.form['price']):
+			errors = ["Name and Price are required fields"]
+			return render_template('editMenuItem.html', restaurant = selectedRestaurant, item = editItem, errors = errors)
+		else:
+			editItem.name = request.form['name']
+			editItem.description = request.form['description']
+			editItem.price = request.form['price']
+			editItem.course = request.form['course']
+			session.commit()
+			return redirect(url_for('showMenu', restaurant_id = restaurant_id))
 	else:
 		return render_template('editMenuItem.html', restaurant = selectedRestaurant, item = editItem)
 
@@ -66,13 +71,18 @@ def editMenuItem(restaurant_id, item_id):
 def editRestaurant(restaurant_id):
 	editRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'POST':
-		editRestaurant.name = request.form['name']
-		editRestaurant.description = request.form['description']
-		editRestaurant.address = request.form['address']
-		editRestaurant.phone = request.form['phone']
-		editRestaurant.website = request.form['website']
-		session.commit()
-		return redirect(url_for('showRestaurants'))
+		# Check for input errors
+		if not request.form['name']:
+			errors = ['Name is a required field']
+			return render_template('editRestaurant.html', restaurant = editRestaurant, errors=errors)
+		else:
+			editRestaurant.name = request.form['name']
+			editRestaurant.description = request.form['description']
+			editRestaurant.address = request.form['address']
+			editRestaurant.phone = request.form['phone']
+			editRestaurant.website = request.form['website']
+			session.commit()
+			return redirect(url_for('showRestaurants'))
 	else:
 		return render_template('editRestaurant.html', restaurant = editRestaurant)
 
@@ -83,10 +93,15 @@ def editRestaurant(restaurant_id):
 def newMenuItem(restaurant_id):
 	selectedRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'POST':
-		newMenuItem = MenuItem(name = request.form['name'], description = request.form['description'], price  = request.form['price'], course = request.form['course'], restaurant_id = restaurant_id)
-		session.add(newMenuItem)
-		session.commit()
-		return redirect(url_for('showMenu', restaurant_id = restaurant_id))
+		# Check for errors
+		if not (request.form['name'] and request.form['price']):
+			errors = ["Name and Price are required fields"]
+			return render_template('newMenuItem.html', restaurant = selectedRestaurant, errors = errors)
+		else:
+			newMenuItem = MenuItem(name = request.form['name'], description = request.form['description'], price  = request.form['price'], course = request.form['course'], restaurant_id = restaurant_id)
+			session.add(newMenuItem)
+			session.commit()
+			return redirect(url_for('showMenu', restaurant_id = restaurant_id))
 	else:
 		return render_template('newMenuItem.html', restaurant = selectedRestaurant)
 
@@ -96,12 +111,16 @@ def newMenuItem(restaurant_id):
 @app.route('/restaurants/new', methods = ['GET', 'POST'])
 def newRestaurant():
 	if request.method == 'POST':
-		newRestaurant = Restaurant(name = request.form['name'], description = request.form['description'], address = request.form['address'], phone = request.form['phone'], website = request.form['website'])
-		session.add(newRestaurant)
-		session.commit()
-		return redirect(url_for('showRestaurants'))
+		# Check for errors - name is a required field
+		if not request.form['name']:
+			errors = {'Name is a required field'}
+			return render_template('newRestaurant.html', errors = errors)
+		else:
+			newRestaurant = Restaurant(name = request.form['name'], description = request.form['description'], address = request.form['address'], phone = request.form['phone'], website = request.form['website'])
+			session.add(newRestaurant)
+			session.commit()
+			return redirect(url_for('showRestaurants'))
 	else:
-		print "GOT GET"
 		return render_template('newRestaurant.html')
 	
 # -----------------------------------------------------------

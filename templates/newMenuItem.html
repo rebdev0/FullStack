@@ -37,6 +37,15 @@
 				<p><h4>Add a new menu item</h4></p>
 			</div>
 
+			<!-- if there are errors, display them here! -->
+			{% if errors %}
+				{% for e in errors %}
+					<div class="alert alert-danger" role="alert">
+						<strong>Error!</strong> {{e}}
+					</div>
+				{% endfor %}
+			{% endif %}
+			
 			<!-- Form for adding a new menu item -->
 			<form class="form-horizontal" action="{{url_for('newMenuItem', restaurant_id = restaurant.id)}}" method = 'POST' role="form">
 				<!-- Name -->
