@@ -38,6 +38,16 @@
 				<h4>A selection of local restaurants.  Enjoy your dining experience!</h4>
 			</div>
 		
+		<!-- if there are messages, display them here! -->
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				{% for m in messages %}
+					<div class="alert alert-success" role="alert">{{m}}</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		
+		<!-- Display all the restaurants -->
 		{% if restaurants|length == 0 %}
 			No restaurants found<br><br>
 		{% else %}

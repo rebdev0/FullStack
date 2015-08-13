@@ -29,7 +29,7 @@
 			</div><!-- end navigation menu -->
 		  </div> <!--  end container -->
 		</nav> <!-- end navbar -->
-		
+				
 		<!-- Menu Items -->
 		<div class="container">	
 			<div class="jumbotron">
@@ -49,6 +49,15 @@
 					{% endif %}
 				</h4></p>
 			</div>
+
+			<!-- if there are messages, display them here! -->
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					{% for m in messages %}
+						<div class="alert alert-success" role="alert">{{m}}</div>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
 			
 			{% if items|length == 0 %}
 				No menu items yet <br><br>

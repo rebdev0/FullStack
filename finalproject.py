@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, redirect, render_template, request, url_for
+from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
 app = Flask(__name__)
 
 from sqlalchemy import create_engine
@@ -24,6 +24,7 @@ def deleteMenuItem(restaurant_id, item_id):
 	if request.method == 'POST':
 		session.delete(deleteItem)
 		session.commit()
+		flash("%s deleted successfully!" % deleteItem.name)
 		return redirect(url_for('showMenu', restaurant_id = restaurant_id)) 
 	else:
 		return render_template('deleteMenuItem.html', item = deleteItem, restaurant = selectedRestaurant)
@@ -38,6 +39,7 @@ def deleteRestaurant(restaurant_id):
 	if request.method == 'POST':
 		session.delete(deleteRestaurant)
 		session.commit()
+		flash("%s deleted successfully!" % deleteRestaurant.name)
 		return redirect(url_for('showRestaurants'))
 	else:
 		return render_template('deleteRestaurant.html', restaurant = deleteRestaurant)
@@ -60,6 +62,7 @@ def editMenuItem(restaurant_id, item_id):
 			editItem.price = request.form['price']
 			editItem.course = request.form['course']
 			session.commit()
+			flash("%s changed successfully!" % editItem.name)
 			return redirect(url_for('showMenu', restaurant_id = restaurant_id))
 	else:
 		return render_template('editMenuItem.html', restaurant = selectedRestaurant, item = editItem)
@@ -82,6 +85,7 @@ def editRestaurant(restaurant_id):
 			editRestaurant.phone = request.form['phone']
 			editRestaurant.website = request.form['website']
 			session.commit()
+			flash("%s changed successfully!" % editRestaurant.name)
 			return redirect(url_for('showRestaurants'))
 	else:
 		return render_template('editRestaurant.html', restaurant = editRestaurant)
@@ -101,6 +105,7 @@ def newMenuItem(restaurant_id):
 			newMenuItem = MenuItem(name = request.form['name'], description = request.form['description'], price  = request.form['price'], course = request.form['course'], restaurant_id = restaurant_id)
 			session.add(newMenuItem)
 			session.commit()
+			flash("%s added successfully!" % newMenuItem.name)
 			return redirect(url_for('showMenu', restaurant_id = restaurant_id))
 	else:
 		return render_template('newMenuItem.html', restaurant = selectedRestaurant)
@@ -119,6 +124,7 @@ def newRestaurant():
 			newRestaurant = Restaurant(name = request.form['name'], description = request.form['description'], address = request.form['address'], phone = request.form['phone'], website = request.form['website'])
 			session.add(newRestaurant)
 			session.commit()
+			flash("%s added successfully!" % newRestaurant.name)
 			return redirect(url_for('showRestaurants'))
 	else:
 		return render_template('newRestaurant.html')
@@ -168,4 +174,5 @@ def getMenuItemJSON(restaurant_id, menu_id):
 	
 if __name__ == '__main__':
 	app.debug = True
+	app.secret_key = "some secret key"
 	app.run(host = '0.0.0.0', port = 5000)
